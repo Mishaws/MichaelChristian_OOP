@@ -1,8 +1,9 @@
 package Model;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Player {
+public class Player implements ShowDetail{
     private UUID playerID;
     private String username;
     private int totalCoins;

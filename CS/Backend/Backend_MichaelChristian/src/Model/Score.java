@@ -36,7 +36,7 @@ public class Score implements ShowDetail {
     }
 
     @Override
-    public void showDetail() {
+    public void showDetail()     {
         System.out.println("Score ID: " + scoreId);
         System.out.println("Player ID: " + playerId);
         System.out.println("Score Value: " + value);
