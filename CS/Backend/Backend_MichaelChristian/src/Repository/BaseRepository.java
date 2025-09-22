@@ -1,26 +1,26 @@
 package Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.HashMap;
+import java.util.*;
 
-public abstract class BaseRepository<T,ID> {
-    HashMap<T, ID> Map = new HashMap<>();
-    ArrayList<T, ID> List = new ArrayList<>();
-    void findById(ID id) {
+public abstract class BaseRepository<T, ID> {
+    Map<ID, T> dataMap = new HashMap<>();
+    protected List<T> allData = new ArrayList<>();
 
+    public Optional<T> findById(ID id) {
+        return Optional.ofNullable(dataMap.get(id));
     }
 
-    void findAll() {
-
+    public List<T> findAll() {
+        return new ArrayList<>(allData);
     }
 
-    public abstract void save(T entity) {
-
+    public void deleteById(ID id) {
+        T entity = dataMap.remove(id);
+        if (entity != null) {
+            allData.remove(entity);
+        }
     }
 
-    public abstract void getID(T entity) {
-
-    }
+    public abstract void save(T entity);
+    public abstract ID getId(T entity);
 }

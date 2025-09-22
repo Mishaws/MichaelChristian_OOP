@@ -4,47 +4,64 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Player implements ShowDetail{
-    private UUID playerID;
+    private UUID playerId;
     private String username;
-    private int totalCoins;
     private int highScore;
+    private int totalCoins;
     private int totalDistance;
     private LocalDateTime createdAt;
 
     public Player(String username) {
-        this.playerID = UUID.randomUUID();
+        this.playerId = UUID.randomUUID();
         this.username = username;
-        this.totalCoins = 0;
         this.highScore = 0;
+        this.totalCoins = 0;
+        this.totalDistance = 0;
         this.createdAt = LocalDateTime.now();
     }
 
-    public UUID getPlayerID(){
-        return playerID;
+    public UUID getPlayerId() {
+        return playerId;
     }
 
-    public void updateHighScore(int newScore) {
-        if (newScore > highScore){
-            this.highScore = newScore;
+    public void updateHighScore(int score) {
+        if (score > this.highScore) {
+            this.highScore = score;
         }
     }
 
-    public void addCoins(int coins){
-        totalCoins += coins;
+    public void addCoins(int coins) {
+        this.totalCoins += coins;
     }
 
-    public void addDistance(int distance){
-        totalDistance += distance;
+    public void addDistance(int distance) {
+        this.totalDistance += distance;
     }
 
     @Override
-    public void showDetail(){
-        System.out.println("Player ID: " + playerID);
+    public void showDetail() {
+        System.out.println("Player ID: " + playerId);
         System.out.println("Username: " + username);
         System.out.println("High Score: " + highScore);
         System.out.println("Total Coins: " + totalCoins);
-        System.out.println("Total Distance: "+ totalDistance);
+        System.out.println("Total Distance: " + totalDistance);
         System.out.println("Created At: " + createdAt);
+        System.out.println();
+    }
 
+    public Object getUsername() {
+        return username;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public int getTotalCoins() {
+        return totalCoins;
+    }
+
+    public int getTotalDistance() {
+        return totalDistance;
     }
 }
