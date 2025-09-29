@@ -1,28 +1,26 @@
-package Service;
+package com.michael.backend.service;
 
-import Model.Player;
-import Model.Score;
-import Repository.PlayerRepository;
-import Repository.ScoreRepository;
+import com.michael.backend.model.Player;
+import com.michael.backend.repository.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class PlayerService {
 
+    @Autowired
     private PlayerRepository playerRepository;
 
-    public PlayerService(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
-    }
-
     public Player createPlayer(Player player) {
-        if (existsByUsername(player.getUsername())) {
+        if (playerRepository.existsByUsername(player.getUsername())) {
             throw new RuntimeException("Username already exists: " + player.getUsername());
         }
         playerRepository.save(player);
-        return player;
+        return playerRepository.save(player);
     }
 
     public Optional<Player> getPlayerById(UUID playerId) {
@@ -49,23 +47,23 @@ public class PlayerService {
         if (updatedPlayer.getUsername() != null &&
                 !updatedPlayer.getUsername().equals(existingPlayer.getUsername())) {
 
-            if (existsByUsername(updatedPlayer.getUsername())) {
+            if (isUsernameExists(updatedPlayer.getUsername())) {
                 throw new RuntimeException("Username already exists: " + updatedPlayer.getUsername());
             }
             existingPlayer.setUsername(updatedPlayer.getUsername());
         }
 
         // Update high score jika lebih tinggi
-        if (updatedPlayer.getHighScore() > existingPlayer.getHighScore()) {
+        if (updatedPlayer.getHighScore() != null) {
             existingPlayer.setHighScore(updatedPlayer.getHighScore());
         }
 
         // Update fields lainnya (cara sama)
-        if (updatedPlayer.getTotalCoins() > existingPlayer.getTotalCoins()) {
+        if (updatedPlayer.getTotalCoins() != null) {
             existingPlayer.setTotalCoins(updatedPlayer.getTotalCoins());
         }
 
-        if (updatedPlayer.getTotalDistance() > existingPlayer.getTotalDistance()) {
+        if (updatedPlayer.getTotalDistance() != null) {
             existingPlayer.setTotalDistance(updatedPlayer.getTotalDistance());
         }
 
@@ -85,7 +83,7 @@ public class PlayerService {
         playerRepository.delete(player);
     }
 
-    public Player updatePlayerStats(UUID playerId, int scoreValue, int coinsCollected, int distanceTravelled) {
+    public Player updatePlayerStats(UUID playerId, Integer scoreValue, Integer coinsCollected, Integer distanceTravelled) {
         Player player = playerRepository.findById(playerId)
                 .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId));
 
@@ -101,7 +99,7 @@ public class PlayerService {
     }
 
     public List<Player> getLeaderboardByHighScore(int limit) {
-        return playerRepository.findTopPlayersByHighScore(limit);
+        return playerRepository.findTOpPlayersByHighScore(limit);
     }
 
     public List<Player> getLeaderboardByTotalCoins() {
@@ -109,10 +107,10 @@ public class PlayerService {
     }
 
     public List<Player> getLeaderboardByTotalDistance() {
-        return playerRepository.findAllByOrderByTotalDistanceTravelledDesc();
+        return playerRepository.findAllByOrderByTotalDistanceDesc();
     }
 
-    public boolean existsByUsername(String username) {
+    public boolean isUsernameExists(String username) {
         return playerRepository.findByUsername(username).isPresent();
     }
 }

@@ -21,6 +21,15 @@ public abstract class BaseRepository<T, ID> {
         }
     }
 
+    public void delete(T entity) {
+        ID id = getId(entity);
+        deleteById(id);
+    }
+
+    public boolean existById(ID id) {
+        return dataMap.containsKey(id);
+    }
+
     public abstract void save(T entity);
     public abstract ID getId(T entity);
 }
