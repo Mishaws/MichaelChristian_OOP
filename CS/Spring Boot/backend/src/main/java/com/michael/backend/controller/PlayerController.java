@@ -11,13 +11,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * REST Controller untuk mengelola operasi terkait Player.
- * Menangani permintaan HTTP dan memberikan respons dalam format JSON.
- */
 @RestController
 @RequestMapping("/api/players") // Base path untuk semua endpoint di controller ini
-public class PlayerController {
+@CrossOrigin(origins = "*")
+public class ScoreController {
 
     // 3. Hubungkan Controller dengan Service menggunakan Dependency Injection
     @Autowired

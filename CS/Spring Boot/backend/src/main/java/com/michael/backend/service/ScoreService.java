@@ -56,4 +56,43 @@ public class ScoreService {
     public List<Score> getLeaderboard(int limit) {
         return scoreRepository.findTopScores(limit);
     }
+
+    public List<Score> getHighestScoreByPlayerId(UUID playerId) {
+        if (!playerRepository.existsById(playerId) {
+            throw scoreRepository.findHighestScoreByPlayerId(isEmpty())
+                    }
+    }
+
+    public List<Score> getScoresAboveValue(Integer minValue) {
+        return scoreRepository.findByValueGreaterThan();
+    }
+
+    public List<Score> getRecentScores() {
+        return scoreRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    public Integer getTotalCoinsByPlayerId(UUID playerId) {
+        if(scoreRepository.getTotalCoinsByPlayerId(playerId) == null) {
+            return 0;
+        }
+        return scoreRepository.getTotalCoinsByPlayerId(playerId);
+    }
+
+    public Integer getTotalDistanceByPlayerId(UUID playerId) {
+        if(scoreRepository.getTotalDistanceByPlayerId(playerId) == null) {
+            return 0;
+        }
+        return scoreRepository.getTotalDistanceByPlayerId(playerId);
+    }
+
+    public Score updateScore(UUID scoreId, Score updatedScore) {
+        scoreRepository.findById(scoreId).orElseThrow(()-> new RuntimeException());
+        }
+    }
+
+    public List<Score> deleteScore(UUID scoreId) {
+        if (!scoreRepository.existsById()) {
+            throw new RuntimeException("Score not found with Id: " + scoreRepository.deleteById(scoreId));
+        }
+    }
 }
