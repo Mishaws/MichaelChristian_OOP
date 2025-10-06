@@ -31,10 +31,6 @@ public class PlayerService {
         return playerRepository.findByUsername(username);
     }
 
-    /**
-     * Get all players
-     * @return List of all players
-     */
     public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
