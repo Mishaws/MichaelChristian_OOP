@@ -57,14 +57,16 @@ public class ScoreService {
         return scoreRepository.findTopScores(limit);
     }
 
-    public List<Score> getHighestScoreByPlayerId(UUID playerId) {
-        if (!playerRepository.existsById(playerId) {
-            throw scoreRepository.findHighestScoreByPlayerId(isEmpty())
-                    }
+    public Optional<Score> getHighestScoreByPlayerId(UUID playerId) {
+        List<Score> scores = scoreRepository.findHighestScoreByPlayerId(playerId);
+        if (scores.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(scores.get(0));
     }
 
     public List<Score> getScoresAboveValue(Integer minValue) {
-        return scoreRepository.findByValueGreaterThan();
+        return scoreRepository.findByValueGreaterThan(minValue);
     }
 
     public List<Score> getRecentScores() {
@@ -86,13 +88,31 @@ public class ScoreService {
     }
 
     public Score updateScore(UUID scoreId, Score updatedScore) {
-        scoreRepository.findById(scoreId).orElseThrow(()-> new RuntimeException());
+        Score existingScore = scoreRepository.findById(scoreId).orElseThrow(()-> new RuntimeException("Score not found with ID: " + scoreId));
+
+        if (updatedScore.getValue() != null) {
+            existingScore.setValue(updatedScore.getValue());
         }
+        if (updatedScore.getCoinsCollected() != null) {
+            existingScore.setCoinsCollected(updatedScore.getCoinsCollected());
+        }
+        if (updatedScore.getDistanceTravelled() != null) {
+            existingScore.setDistanceTravelled(updatedScore.getDistanceTravelled());
+        }
+        return scoreRepository.save(existingScore);
     }
 
-    public List<Score> deleteScore(UUID scoreId) {
-        if (!scoreRepository.existsById()) {
-            throw new RuntimeException("Score not found with Id: " + scoreRepository.deleteById(scoreId));
+    public void deleteScore(UUID scoreId) {
+        if (!scoreRepository.existsById(scoreId)) {
+            throw new RuntimeException("Score not found with ID: " +scoreId);
+        }
+        scoreRepository.deleteById(scoreId);
+    }
+
+    public void deleteScoresByPlayerId(UUID playerId) {
+        List<Score> scoresToDelete = scoreRepository.findByPlayerId(playerId);
+        if (!scoresToDelete.isEmpty()) {
+            scoreRepository.deleteAll(scoresToDelete);
         }
     }
 }
