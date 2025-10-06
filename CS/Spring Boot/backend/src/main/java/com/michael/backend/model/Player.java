@@ -8,12 +8,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "players")
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "player_id")
     private UUID playerId;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(name = "high_score")
@@ -22,22 +23,22 @@ public class Player {
     @Column(name = "total_coins")
     private Integer totalCoins = 0;
 
-    @Column(name = "totalDistance")
-    private Integer totalDistance = 0;
+    @Column(name = "total_distance_travelled")
+    private Integer totalDistanceTravelled = 0;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    // Default Constructor
+    // Default constructor
     public Player() {}
 
-    // Contructor with username
+    // Constructor with username
     public Player(String username) {
         this.username = username;
     }
 
-    // Getter and Setter
+    // Getters and Setters
     public UUID getPlayerId() {
         return playerId;
     }
@@ -70,12 +71,12 @@ public class Player {
         this.totalCoins = totalCoins;
     }
 
-    public Integer getTotalDistance() {
-        return totalDistance;
+    public Integer getTotalDistanceTravelled() {
+        return totalDistanceTravelled;
     }
 
-    public void setTotalDistance(Integer totalDistance) {
-        this.totalDistance = totalDistance;
+    public void setTotalDistanceTravelled(Integer totalDistanceTravelled) {
+        this.totalDistanceTravelled = totalDistanceTravelled;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -86,16 +87,18 @@ public class Player {
         this.createdAt = createdAt;
     }
 
-    // Business Methods
+    // Business methods
     public void updateHighScore(Integer newScore) {
         if (newScore > this.highScore) {
             this.highScore = newScore;
         }
     }
+
     public void addCoins(Integer coins) {
         this.totalCoins += coins;
     }
+
     public void addDistance(Integer distance) {
-        this.totalDistance += distance;
+        this.totalDistanceTravelled += distance;
     }
 }

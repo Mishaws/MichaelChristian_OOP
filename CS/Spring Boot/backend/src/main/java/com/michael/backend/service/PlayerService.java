@@ -19,7 +19,6 @@ public class PlayerService {
         if (playerRepository.existsByUsername(player.getUsername())) {
             throw new RuntimeException("Username already exists: " + player.getUsername());
         }
-        playerRepository.save(player);
         return playerRepository.save(player);
     }
 
@@ -39,39 +38,36 @@ public class PlayerService {
         Player existingPlayer = playerRepository.findById(playerId)
                 .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId));
 
-        // Update username jika berbeda dan tersedia
-        if (updatedPlayer.getUsername() != null &&
-                !updatedPlayer.getUsername().equals(existingPlayer.getUsername())) {
-
-            if (isUsernameExists(updatedPlayer.getUsername())) {
+        if (updatedPlayer.getUsername() != null) {
+            if (!existingPlayer.getUsername().equals(updatedPlayer.getUsername())
+                    && playerRepository.existsByUsername(updatedPlayer.getUsername())) {
                 throw new RuntimeException("Username already exists: " + updatedPlayer.getUsername());
             }
             existingPlayer.setUsername(updatedPlayer.getUsername());
         }
 
-        // Update high score jika lebih tinggi
         if (updatedPlayer.getHighScore() != null) {
             existingPlayer.setHighScore(updatedPlayer.getHighScore());
         }
 
-        // Update fields lainnya (cara sama)
         if (updatedPlayer.getTotalCoins() != null) {
             existingPlayer.setTotalCoins(updatedPlayer.getTotalCoins());
         }
 
-        if (updatedPlayer.getTotalDistance() != null) {
-            existingPlayer.setTotalDistance(updatedPlayer.getTotalDistance());
+        if (updatedPlayer.getTotalDistanceTravelled() != null) {
+            existingPlayer.setTotalDistanceTravelled(updatedPlayer.getTotalDistanceTravelled());
         }
 
-        playerRepository.save(existingPlayer);
-        return existingPlayer;
+        return playerRepository.save(existingPlayer);
     }
 
     public void deletePlayer(UUID playerId) {
-        Player player = playerRepository.findById(playerId)
-                .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId));
+        if (!playerRepository.existsById(playerId)) {
+            throw new RuntimeException("Player not found with ID: " + playerId);
+        }
         playerRepository.deleteById(playerId);
     }
+
 
     public void deletePlayerByUsername(String username) {
         Player player = playerRepository.findByUsername(username)
@@ -83,19 +79,16 @@ public class PlayerService {
         Player player = playerRepository.findById(playerId)
                 .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId));
 
-        // Update high score if this score is higher
         player.updateHighScore(scoreValue);
 
-        // Add coins and distance to totals
         player.addCoins(coinsCollected);
         player.addDistance(distanceTravelled);
 
-        playerRepository.save(player);
-        return player;
+        return playerRepository.save(player);
     }
 
     public List<Player> getLeaderboardByHighScore(int limit) {
-        return playerRepository.findTOpPlayersByHighScore(limit);
+        return playerRepository.findTopPlayersByHighScore(limit);
     }
 
     public List<Player> getLeaderboardByTotalCoins() {
@@ -103,10 +96,10 @@ public class PlayerService {
     }
 
     public List<Player> getLeaderboardByTotalDistance() {
-        return playerRepository.findAllByOrderByTotalDistanceDesc();
+        return playerRepository.findAllByOrderByTotalDistanceTravelledDesc();
     }
 
     public boolean isUsernameExists(String username) {
-        return playerRepository.findByUsername(username).isPresent();
+        return playerRepository.existsByUsername(username);
     }
 }

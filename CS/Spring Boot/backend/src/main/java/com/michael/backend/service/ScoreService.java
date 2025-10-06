@@ -104,7 +104,7 @@ public class ScoreService {
 
     public void deleteScore(UUID scoreId) {
         if (!scoreRepository.existsById(scoreId)) {
-            throw new RuntimeException("Score not found with ID: " +scoreId);
+            throw new RuntimeException("Score not found with ID: " + scoreId);
         }
         scoreRepository.deleteById(scoreId);
     }
