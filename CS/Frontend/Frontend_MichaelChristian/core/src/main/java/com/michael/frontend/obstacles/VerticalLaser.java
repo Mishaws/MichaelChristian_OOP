@@ -4,37 +4,39 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class HorizontalLaser extends BaseObstacle{
-    public HorizontalLaser(Vector2 startPosition, int length){
+import java.security.PublicKey;
+
+public class VerticalLaser extends BaseObstacle {
+    public VerticalLaser(Vector2 startPosition, int length){
         super(startPosition, length);
     }
 
     @Override
-    public void initialize(Vector2 startPosition, int length) {
+    public void initialize (Vector2 startPosition, int length) {
         super.initialize(startPosition, length);
     }
 
     @Override
     protected void updateCollider() {
         if (this.collider == null) {
-            this.collider = new Rectangle(position.x, position.y, length, WIDTH);
+            this.collider = new Rectangle(position.x, position.y, WIDTH, length);
         } else {
-            this.collider.set(position.x, position.y, length, WIDTH);
+            this.collider.set(position.x, position.y, WIDTH, length);
         }
     }
 
     @Override
     protected void drawShape(ShapeRenderer shapeRenderer) {
-        shapeRenderer.rect(position.x, position.y, length, WIDTH);
+        shapeRenderer.rect(position.x, position.y, WIDTH, length);
     }
 
     @Override
     protected float getRenderWidth() {
-        return length;
+        return WIDTH;
     }
 
     @Override
     protected float getRenderHeight() {
-        return WIDTH;
+        return length;
     }
 }

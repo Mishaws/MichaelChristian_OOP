@@ -1,15 +1,15 @@
-package com.michael.frontend;
+package com.michael.frontend.obstacles;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class BaseObstacle {
-    private Vector2 position;
-    private Rectangle collider;
-    private float length;
-    private final float WIDTH = 10f;
-    private boolean active = false;
+    protected Vector2 position;
+    protected Rectangle collider;
+    protected float length;
+    protected final float WIDTH = 10f;
+    protected boolean active = false;
 
     public BaseObstacle(Vector2 startPosition, int length){
         this.position = startPosition;
@@ -41,25 +41,22 @@ public abstract class BaseObstacle {
     }
 
     public boolean isOffScreenCamera(float cameraLeftEdge) {
-        if (cameraLeftEdge < getRenderWidth()) {
-            return true;
-        }
-        return false;
+        return position.x + getRenderWidth() < cameraLeftEdge;
     }
 
-    private void updateCollider(){
+    protected abstract void updateCollider();
 
-    }
+    protected abstract void drawShape(ShapeRenderer shapeRenderer);
 
-    abstract void drawShape(ShapeRenderer shapeRenderer);
-    abstract float getRenderWidth();
-    abstract float getRenderHeight();
+    protected abstract float getRenderWidth();
+    protected abstract float getRenderHeight();
 
     public void setActive(boolean active) {
         this.active = active;
     }
     public void setPosition(float x, float y) {
-        this.position = position;
+        this.position.set(x, y);
+        updateCollider();
     }
 
     public Vector2 getPosition(){
