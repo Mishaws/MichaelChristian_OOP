@@ -14,23 +14,21 @@ public class Main extends ApplicationAdapter {
     private Ground ground;
     private GameManager gameManager;
 
+    // Camera system
     private OrthographicCamera camera;
     private float cameraOffset = 0.2f;
 
     @Override
     public void create() {
         shapeRenderer = new ShapeRenderer();
-
         gameManager = GameManager.getInstance();
 
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false);
+        // Initialize camera
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        Vector2 startPos = new Vector2(100, Gdx.graphics.getHeight() / 2f);
-        player = new Player(startPos);
-
+        player = new Player(new Vector2(100, Gdx.graphics.getHeight() / 2f));
         ground = new Ground();
-
         gameManager.startGame();
     }
 
@@ -38,40 +36,44 @@ public class Main extends ApplicationAdapter {
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
 
+        // Update game logic
         update(delta);
 
-        ScreenUtils.clear(0.1f, 0.1f, 0.2f, 1f);
+        // Render
+        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
+        // Set camera for rendering
         shapeRenderer.setProjectionMatrix(camera.combined);
 
+        // Render ground (filled gray rectangle)
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
         ground.renderShape(shapeRenderer);
         player.renderShape(shapeRenderer);
-
         shapeRenderer.end();
     }
 
     private void update(float delta) {
         boolean isFlying = Gdx.input.isKeyPressed(Input.Keys.SPACE);
-
         player.update(delta, isFlying);
         updateCamera(delta);
+
+        // Update ground position based on camera BEFORE checking boundaries
         ground.update(camera.position.x);
+        player.checkBoundaries(ground, Gdx.graphics.getHeight());
 
-        player.checkBoundaries(ground, camera.viewportHeight);
+        // Calculate distance-based score and log changes
+        int currentDistance = (int)player.getDistanceTraveled();
+        int previousDistance = (int)(gameManager.getScore());
 
-        int newScore = (int) player.getDistanceTraveled();
-        if (newScore != gameManager.getScore()) {
-            gameManager.setScore(newScore);
+        if (currentDistance != previousDistance) {
+            System.out.println("Distance: " + currentDistance + "m");
+            gameManager.setScore(currentDistance);
         }
     }
 
     private void updateCamera(float delta) {
-        float cameraFocus = player.getPosition().x + (Gdx.graphics.getWidth() * cameraOffset);
-
+        float cameraFocus = player.getPosition().x + Gdx.graphics.getWidth() * cameraOffset;
         camera.position.x = cameraFocus;
-
         camera.update();
     }
 

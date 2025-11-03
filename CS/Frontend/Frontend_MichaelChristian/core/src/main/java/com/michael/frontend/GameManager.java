@@ -7,8 +7,8 @@ public class GameManager {
     private boolean gameActive;
 
     private GameManager() {
-        this.score = 0;
-        this.gameActive = false;
+        score = 0;
+        gameActive = false;
     }
 
     public static GameManager getInstance() {
@@ -19,18 +19,17 @@ public class GameManager {
     }
 
     public void startGame() {
-        this.score = 0;
-        this.gameActive = true;
+        score = 0;
+        gameActive = true;
         System.out.println("Game Started!");
     }
 
     public void setScore(int newScore) {
         if (gameActive) {
-            this.score = newScore;
+            score = newScore;
         }
     }
 
-    public int getScore() {
-        return score;
-    }
+    // Getters
+    public int getScore() { return score; }
 }

@@ -14,45 +14,55 @@ public class Player {
     private float width = 64f;
     private float height = 64f;
 
+    // Speed system
     private float baseSpeed = 300f;
     private float distanceTraveled = 0f;
 
     public Player(Vector2 startPosition) {
-        this.position = startPosition;
-        this.velocity = new Vector2(baseSpeed, 0);
-        this.collider = new Rectangle(startPosition.x, startPosition.y, width, height);
+        position = new Vector2(startPosition);
+
+        collider = new Rectangle(
+            position.x,
+            position.y,
+            width,
+            height
+        );
+        velocity = new Vector2(baseSpeed, 0);
     }
 
     public void update(float delta, boolean isFlying) {
         updateDistanceAndSpeed(delta);
-        updatePosition(delta);
         applyGravity(delta);
-
         if (isFlying) {
             fly(delta);
         }
-
+        updatePosition(delta);
         updateCollider();
     }
 
+
     private void updateDistanceAndSpeed(float delta) {
+        // Track distance traveled
         distanceTraveled += velocity.x * delta;
     }
 
     private void updatePosition(float delta) {
+        // Move forward constantly
         position.x += velocity.x * delta;
+        // Apply vertical movement (gravity/jetpack)
         position.y += velocity.y * delta;
     }
 
     private void applyGravity(float delta) {
         velocity.y -= gravity * delta;
+        // Keep forward speed constant with current speed
         velocity.x = baseSpeed;
 
-        if (velocity.y > maxVerticalSpeed) {
-            velocity.y = maxVerticalSpeed;
-        }
+        // Clamp vertical velocity to max speed
         if (velocity.y < -maxVerticalSpeed) {
             velocity.y = -maxVerticalSpeed;
+        } else if (velocity.y > maxVerticalSpeed) {
+            velocity.y = maxVerticalSpeed;
         }
     }
 
@@ -65,22 +75,26 @@ public class Player {
     }
 
     public void checkBoundaries(Ground ground, float ceilingY) {
-        if (ground.isColliding(this.collider)) {
+        // Ground collision
+        if (ground.isColliding(collider)) {
             position.y = ground.getTopY();
             velocity.y = 0;
         }
 
+        // Ceiling collision
         if (position.y + height > ceilingY) {
             position.y = ceilingY - height;
             velocity.y = 0;
         }
     }
 
+    // Debug
     public void renderShape(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(1f, 0f, 0f, 1f);
+        shapeRenderer.setColor(0f, 1f, 0f, 1f);
         shapeRenderer.rect(position.x, position.y, width, height);
     }
 
+    // Getters
     public Vector2 getPosition() {
         return position;
     }
@@ -98,6 +112,7 @@ public class Player {
     }
 
     public float getDistanceTraveled() {
-        return distanceTraveled / 10;
+        return distanceTraveled / 10f;
     }
 }
+

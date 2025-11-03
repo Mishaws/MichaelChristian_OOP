@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Ground {
     private static final float GROUND_HEIGHT = 50f;
-
     private Rectangle collider;
 
     public Ground() {
@@ -14,9 +13,9 @@ public class Ground {
     }
 
     public void update(float cameraX) {
-        collider.x = cameraX - Gdx.graphics.getWidth() / 2f - 500;
-        collider.y = 0;
-        collider.width = Gdx.graphics.getWidth() * 2;
+        float groundWidth = Gdx.graphics.getWidth() * 3;
+        this.collider.setPosition(cameraX - Gdx.graphics.getWidth() / 2f - 500, 0);
+        this.collider.setWidth(groundWidth + 1000);
     }
 
     public boolean isColliding(Rectangle playerCollider) {
@@ -27,8 +26,10 @@ public class Ground {
         return GROUND_HEIGHT;
     }
 
+    // Debug
     public void renderShape(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1f);
+        // Draw ground as gray rectangle
+        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1f); // Gray color
         shapeRenderer.rect(collider.x, collider.y, collider.width, collider.height);
     }
 }
