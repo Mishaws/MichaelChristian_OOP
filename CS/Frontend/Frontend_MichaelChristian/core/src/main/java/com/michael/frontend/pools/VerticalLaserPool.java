@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.michael.frontend.obstacles.VerticalLaser;
 
-public class VerticalLaserPool extends ObjectPool<VerticalLaser> {
+public class VerticalLaserPool extends com.nama.frontend.pools.ObjectPool<VerticalLaser> {
 
     @Override
     protected VerticalLaser createObject() {
@@ -12,15 +12,15 @@ public class VerticalLaserPool extends ObjectPool<VerticalLaser> {
     }
 
     @Override
-    protected void resetObject(VerticalLaser object) {
-        object.setPosition(Gdx.graphics.getWidth(), 0);
-        object.setActive(false);
+    protected void resetObject(VerticalLaser obstacle) {
+        obstacle.setPosition(Gdx.graphics.getWidth(), 0);
+        obstacle.setActive(false);
     }
 
     public VerticalLaser obtain(Vector2 position, int length) {
-        VerticalLaser laser = super.obtain();
-        laser.initialize(position, length);
-        laser.setActive(true);
-        return laser;
+        VerticalLaser obstacle = super.obtain();
+        obstacle.initialize(position, length);
+        obstacle.setActive(true);
+        return obstacle;
     }
 }

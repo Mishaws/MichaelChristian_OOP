@@ -1,4 +1,4 @@
-package com.michael.frontend.obstacles;
+package com.nama.frontend.obstacles;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.michael.frontend.Player;
 
 public class HomingMissile extends BaseObstacle {
-
     private Player target;
     private Vector2 velocity;
     private float speed = 200f;
@@ -14,7 +13,7 @@ public class HomingMissile extends BaseObstacle {
     private float height = 20f;
 
     public HomingMissile(Vector2 startPosition) {
-        super(startPosition, 0);
+        super(startPosition,0);
         this.velocity = new Vector2();
     }
 
@@ -29,40 +28,28 @@ public class HomingMissile extends BaseObstacle {
     }
 
     public boolean isTargetingPlayer() {
-        if (target == null) {
-            return false;
-        }
-
-        float targetCenterX = target.getCollider().x + (target.getCollider().width / 2);
-        float missileCenterX = this.position.x + (this.width / 2);
-
-        return missileCenterX >= targetCenterX;
+        if (target == null) return false;
+        float playerCenterX = target.getPosition().x + target.getWidth() / 2f;
+        float missileCenterX = position.x + width / 2f;
+        return playerCenterX <= missileCenterX;
     }
 
     public void update(float delta) {
-        if (target == null || !active) {
-            return;
-        }
+        if (target == null || !active) return;
 
         if (isTargetingPlayer()) {
-            Vector2 targetPosition = target.getPosition();
-
-            velocity.set(targetPosition).sub(position).nor().scl(speed);
-
-            position.x += velocity.x * delta;
-            position.y += velocity.y * delta;
-
-            updateCollider();
+            Vector2 targetPosition = target.getPosition(); // Ambil Posisi Player
+            velocity.set(targetPosition).sub(position).nor().scl(speed); // Mengatur velocity untuk mendekati player
         }
+
+        // Always move with current velocity
+        position.add(velocity.x * delta, velocity.y * delta);
+        updateCollider();
     }
 
     @Override
     protected void updateCollider() {
-        if (this.collider == null) {
-            this.collider = new Rectangle(position.x, position.y, width, height);
-        } else {
-            this.collider.set(position.x, position.y, width, height);
-        }
+        collider = new Rectangle(position.x, position.y, width, height);
     }
 
     @Override
@@ -73,10 +60,5 @@ public class HomingMissile extends BaseObstacle {
     @Override
     protected float getRenderWidth() {
         return width;
-    }
-
-    @Override
-    protected float getRenderHeight() {
-        return height;
     }
 }

@@ -1,4 +1,4 @@
-package com.michael.frontend.pools;
+package com.nama.frontend.pools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -12,15 +12,15 @@ public class HorizontalLaserPool extends ObjectPool<HorizontalLaser> {
     }
 
     @Override
-    protected void resetObject(HorizontalLaser object) {
-        object.setPosition(Gdx.graphics.getWidth(), 0);
-        object.setActive(false);
+    protected void resetObject(HorizontalLaser obstacle) {
+        obstacle.setPosition(Gdx.graphics.getWidth(), 0);
+        obstacle.setActive(false);
     }
 
     public HorizontalLaser obtain(Vector2 position, int length) {
-        HorizontalLaser laser = super.obtain();
-        laser.initialize(position, length);
-        laser.setActive(true);
-        return laser;
+        HorizontalLaser obstacle = super.obtain();
+        obstacle.initialize(position, length);
+        obstacle.setActive(true);
+        return obstacle;
     }
 }

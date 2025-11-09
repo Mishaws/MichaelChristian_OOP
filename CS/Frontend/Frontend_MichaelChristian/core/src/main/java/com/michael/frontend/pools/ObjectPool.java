@@ -1,10 +1,9 @@
-package com.michael.frontend.pools;
+package com.nama.frontend.pools;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ObjectPool<T> {
-
     private List<T> available = new ArrayList<>();
     private List<T> inUse = new ArrayList<>();
 
@@ -30,8 +29,7 @@ public abstract class ObjectPool<T> {
     }
 
     public void releaseAll() {
-        for (int i = inUse.size() - 1; i >= 0; i--) {
-            T object = inUse.get(i);
+        for (T object : inUse) {
             resetObject(object);
             available.add(object);
         }
@@ -46,3 +44,4 @@ public abstract class ObjectPool<T> {
         return inUse.size();
     }
 }
+
