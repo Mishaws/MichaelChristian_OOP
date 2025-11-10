@@ -1,7 +1,4 @@
 package com.michael.frontend.observers;
-
-import com.tp9.frontend.ScoreObserver;
-
 import java.util.ArrayList;
 
 public class ScoreManager implements Subject {
@@ -13,11 +10,16 @@ public class ScoreManager implements Subject {
         score = 0;
     }
 
-    void addScore(int amount){
-        notifyObservers();
+    public void setScore(int newScore) {
+        if (newScore != this.score) {
+            this.score = newScore;
+            notifyObservers(score);
+        }
     }
 
-
+    public int getScore() {
+        return score;
+    }
 
     @Override
     public void addObserver(Observer observer) {
@@ -25,14 +27,15 @@ public class ScoreManager implements Subject {
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public boolean removeObserver(Observer observer) {
         observers.remove(observer);
+        return false;
     }
 
     @Override
     public void notifyObservers(int score) {
         for (Observer observer : observers) {
-            observer.onScoreUpdate();
+            observer.update(score);
         }
     }
 }

@@ -1,13 +1,16 @@
 package com.michael.frontend;
 
+import com.michael.frontend.observers.Observer;
+import com.michael.frontend.observers.ScoreManager;
+
 public class GameManager {
     private static GameManager instance;
 
-    private int score;
+    private ScoreManager scoreManager;
     private boolean gameActive;
 
     private GameManager() {
-        score = 0;
+        scoreManager = new ScoreManager();
         gameActive = false;
     }
 
@@ -19,17 +22,27 @@ public class GameManager {
     }
 
     public void startGame() {
-        score = 0;
+        scoreManager = new ScoreManager();
         gameActive = true;
         System.out.println("Game Started!");
     }
 
     public void setScore(int newScore) {
         if (gameActive) {
-            score = newScore;
+            scoreManager.setScore(newScore);
         }
     }
 
     // Getters
-    public int getScore() { return score; }
+    public int getScore() {
+        return scoreManager.getScore();
+    }
+
+    public void addObserver(Observer observer) {
+        this.scoreManager.addObserver(observer);
+    }
+
+    public boolean removeObserver(Observer observer) {
+        return this.scoreManager.removeObserver(observer);
+    }
 }

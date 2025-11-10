@@ -1,13 +1,14 @@
 package com.michael.frontend.observers;
 
 public interface Subject {
-    void addObserver(Observer observer){
+    default void addObserver(Observer observer) {
 
     }
-    void removeObserver (Observer observer){
+    default boolean removeObserver(Observer observer) {
 
+        return false;
     }
-    void notifyObservers (int score){
+    default void notifyObservers(int score) {
 
     }
 }

@@ -39,9 +39,6 @@ public class Player {
         if (!isDead) {
             updateDistanceAndSpeed(delta);
             applyGravity(delta);
-            if (isFlying) {
-                fly(delta);
-            }
             updatePosition(delta);
         }
         updateCollider();
@@ -73,9 +70,9 @@ public class Player {
         }
     }
 
-    private void fly(float delta) {
+    public void fly() {
         if (!isDead) {
-            velocity.y += force * delta;
+            velocity.y = maxVerticalSpeed;
         }
     }
 
