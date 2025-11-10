@@ -1,8 +1,8 @@
-package com.michael.frontend.lwjgl3;
+package com.michael.frontend.lwjgl3; // <- Perubahan di sini
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.michael.frontend.Main; // nanti ubah lagi, sementara buat TP7 dari .Main sebelumnya
+import com.tp9.frontend.Main; // Ini sudah benar, menunjuk ke Main TP9
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -12,7 +12,8 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new Main(), getDefaultConfiguration()); // ini juga sebelumnya Main
+        // Ini sudah benar, 'Main' di sini merujuk ke import com.tp9.frontend.Main
+        return new Lwjgl3Application(new Main(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

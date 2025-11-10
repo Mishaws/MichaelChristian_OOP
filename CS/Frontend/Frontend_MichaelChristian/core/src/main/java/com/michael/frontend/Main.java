@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.michael.frontend.factories.ObstacleFactory;
 import com.michael.frontend.obstacles.BaseObstacle;
-import com.nama.frontend.obstacles.HomingMissile;
+import com.michael.frontend.obstacles.HomingMissile;
 
 public class Main extends Game {
     private ShapeRenderer shapeRenderer;

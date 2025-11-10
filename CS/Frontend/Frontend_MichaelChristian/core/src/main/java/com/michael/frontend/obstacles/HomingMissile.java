@@ -1,4 +1,4 @@
-package com.nama.frontend.obstacles;
+package com.michael.frontend.obstacles;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;

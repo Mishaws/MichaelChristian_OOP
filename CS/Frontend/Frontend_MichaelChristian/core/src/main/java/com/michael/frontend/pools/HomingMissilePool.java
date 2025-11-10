@@ -1,9 +1,9 @@
 package com.michael.frontend.pools;
 
 import com.badlogic.gdx.math.Vector2;
-import com.nama.frontend.obstacles.HomingMissile;
+import com.michael.frontend.obstacles.HomingMissile;
 
-public class HomingMissilePool extends ObjectPool<HomingMissile> {
+public class HomingMissilePool extends com.michael.frontend.pools.ObjectPool<HomingMissile> {
 
     @Override
     protected HomingMissile createObject() {

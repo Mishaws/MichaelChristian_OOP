@@ -8,7 +8,7 @@ import com.michael.frontend.pools.VerticalLaserPool;
 import java.util.List;
 import java.util.Random;
 
-class VerticalLaserCreator implements com.nama.frontend.factories.ObstacleFactory.ObstacleCreator {
+class VerticalLaserCreator implements com.michael.frontend.factories.ObstacleFactory.ObstacleCreator {
     private static final float MIN_HEIGHT = 100f;
     private static final float MAX_HEIGHT = 300f;
 

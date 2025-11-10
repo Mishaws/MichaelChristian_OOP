@@ -34,7 +34,7 @@ public class ObstacleFactory {
         // Register creators with weights for spawn probability
         // Vertical: 40%, Horizontal: 40%, Homing Missile: 20%
         register(new VerticalLaserCreator(), 2);
-        register(new com.nama.frontend.factories.HorizontalLaserCreator(), 2);
+        register(new com.michael.frontend.factories.HorizontalLaserCreator(), 2);
         register(new HomingMissileCreator(), 1);
     }
 

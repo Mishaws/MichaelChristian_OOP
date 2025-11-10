@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.michael.frontend.obstacles.VerticalLaser;
 
-public class VerticalLaserPool extends com.nama.frontend.pools.ObjectPool<VerticalLaser> {
+public class VerticalLaserPool extends com.michael.frontend.pools.ObjectPool<VerticalLaser> {
 
     @Override
     protected VerticalLaser createObject() {
