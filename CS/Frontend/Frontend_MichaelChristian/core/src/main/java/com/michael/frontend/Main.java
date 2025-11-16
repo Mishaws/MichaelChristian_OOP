@@ -71,6 +71,7 @@ public class Main extends Game {
         this.restartCommand = new RestartCommand(this.player, this.gameManager);
         this.scoreUIObserver = new ScoreUIObserver();
         this.gameManager.addObserver(scoreUIObserver);
+        this.background = new Background();
 
         // Initialize obstacle factory
         obstacleFactory = new ObstacleFactory();

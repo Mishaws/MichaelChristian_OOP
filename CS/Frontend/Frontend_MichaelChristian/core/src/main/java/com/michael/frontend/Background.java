@@ -12,7 +12,7 @@ public class Background {
     public float width;
     public float currentCameraX = 0f;
 
-    public Background(Texture backgroundTexture, TextureRegion backgroundRegion, float height, float width, float currentCameraX) {
+    public Background() {
         this.backgroundTexture = new Texture("background.png");
         this.backgroundRegion = new TextureRegion(this.backgroundTexture);
         this.width = 2688f;
