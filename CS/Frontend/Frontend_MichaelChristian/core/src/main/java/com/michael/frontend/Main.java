@@ -1,6 +1,5 @@
 package com.michael.frontend; // Ganti dengan nama package kalian
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,14 +12,12 @@ public class Main extends Game {
     private GameStateManager gsm;
     private SpriteBatch spriteBatch;
 
-
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();
         gsm = new GameStateManager();
         gsm.push(new PlayingState(gsm));
     }
-
 
     @Override
     public void render() {
@@ -29,10 +26,10 @@ public class Main extends Game {
         gsm.render(spriteBatch);
     }
 
-
     @Override
     public void dispose() {
         super.dispose();
         gsm.pop(); // Dispose the current state
         spriteBatch.dispose();
     }
+}
