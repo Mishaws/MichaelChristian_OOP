@@ -1,10 +1,14 @@
-package com.mygame.tp10;
+package com.mygame.tp10; // Pastikan package Anda benar
 
 public class DefensiveStrategy implements IFightingStrategy {
+
+    private static final int HEAL_AMOUNT = 20; // Jumlah HP yang disembuhkan
+
     @Override
     public void execute(Character character) {
-        System.out.println("LOG: Executing Defensive Strategy!");
-        character.setCombatLog("DEFEND! Raise shield!");
+        // Perbedaan signifikan: Menyembuhkan HP!
+        character.heal(HEAL_AMOUNT);
+        character.setCombatLog("HEAL! + " + HEAL_AMOUNT + " HP");
     }
 
     @Override
